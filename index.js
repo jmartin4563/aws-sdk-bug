@@ -1,4 +1,3 @@
-const newrelic = require('newrelic')
 const getSignedUrl = require('./signed-url')
 
 const params = {
