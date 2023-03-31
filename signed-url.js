@@ -3,7 +3,7 @@ const { getSignedUrl } = require('@aws-sdk/s3-request-presigner')
 
 module.exports = {
   generateSignedURL: async function generateSignedUrl (params) {
-    const s3Client = new S3({ region: 'us-east-2', bucketEndpoint: true })
+    const s3Client = new S3({ region: 'us-east-2' })
     const command = new GetObjectCommand({
       Bucket: params.bucketName,
       Key: params.s3Key

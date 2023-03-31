@@ -10,13 +10,18 @@ const params = {
 newrelic.startWebTransaction('testing', async () => {
   const transaction = newrelic.getTransaction()
 
-  const signedUrl = await generateSignedURL(params)
-  const httpResponse = await axios.get(signedUrl)
-  console.log('Using Axios: ', httpResponse.data)
+  try {
+    const signedUrl = await generateSignedURL(params)
+    const httpResponse = await axios.get(signedUrl)
+    console.log('Using Axios: ', httpResponse.data)
 
-  const sdkResponse = await getBucketContents(params)
-  const responseString = await sdkResponse.Body.transformToString()
-  console.log('Using SDK: ', responseString)
-
-  transaction.end()
+    const sdkResponse = await getBucketContents(params)
+    const responseString = await sdkResponse.Body.transformToString()
+    console.log('Using SDK: ', responseString)
+  } catch (err) {
+    console.log(err)
+    newrelic.noticeError(err)
+  } finally {
+    transaction.end()
+  }
 })
